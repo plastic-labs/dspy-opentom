@@ -31,7 +31,7 @@ def main(dspy_method):
             print(f"TYPE: {question_type}")
             evaluator = OpenToMEvaluatorDspy(model_name="(training set) complied baleen")
             optimizer = BootstrapFewShotWithRandomSearch(metric=evaluator.dspy_metric, num_threads=1)
-            compiled_baleen = optimizer.compile(CoTSimplifiedBaleen(), trainset=datasets[question_type]["train"][:25])
+            compiled_baleen = optimizer.compile(CoTSimplifiedBaleen(), trainset=datasets[question_type]["train"])
 
             modules[question_type] = compiled_baleen
             time.sleep(60)
@@ -44,7 +44,7 @@ def main(dspy_method):
             compiled_baleen = modules[question_type]
 
             # Set up the `evaluate_on_hotpotqa` function.
-            evaluate_on_opentom = Evaluate(devset=test[:10], num_threads=1, display_progress=True, display_table=10)
+            evaluate_on_opentom = Evaluate(devset=test, num_threads=1, display_progress=True, display_table=10)
 
             uncompiled_baleen_evaluator = OpenToMEvaluatorDspy(model_name='uncompiled_baleen')
             evaluate_on_opentom(uncompiled_baleen, metric=uncompiled_baleen_evaluator.dspy_metric, display=False)
