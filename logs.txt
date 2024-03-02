@@ -1,0 +1,424 @@
+TYPE: attitude
+Going to sample between 1 and 4 traces per predictor.
+Will attempt to train 4 candidate sets.
+Average Metric: 254 / 476  (53.4): 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 476/476 [00:00<00:00, 1376.48it/s]
+Average Metric: 254 / 476  (53.4%)
+/Users/vincetrost/work/hackathons/cozy-copmuting-24/openToM-dspy/.venv/lib/python3.11/site-packages/dspy/evaluate/evaluate.py:142: FutureWarning: DataFrame.applymap has been deprecated. Use DataFrame.map instead.
+  df = df.applymap(truncate_cell)
+Score: 53.36 for set: [0]
+New best score: 53.36 for seed -3
+Scores so far: [53.36]
+Best score: 53.36
+Average Metric: 263 / 476  (55.3): 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 476/476 [00:00<00:00, 1020.74it/s]
+Average Metric: 263 / 476  (55.3%)
+Score: 55.25 for set: [16]
+New best score: 55.25 for seed -2
+Scores so far: [53.36, 55.25]
+Best score: 55.25
+  2%|███▎                                                                                                                                            | 11/476 [00:00<00:00, 3513.35it/s]
+Bootstrapped 4 full traces after 12 examples in round 0.
+Average Metric: 295 / 476  (62.0): 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 476/476 [00:00<00:00, 1006.74it/s]
+Average Metric: 295 / 476  (62.0%)
+Score: 61.97 for set: [16]
+New best score: 61.97 for seed -1
+Scores so far: [53.36, 55.25, 61.97]
+Best score: 61.97
+Average of max per entry across top 1 scores: 0.6197478991596639
+Average of max per entry across top 2 scores: 0.6701680672268907
+Average of max per entry across top 3 scores: 0.7163865546218487
+Average of max per entry across top 5 scores: 0.7163865546218487
+Average of max per entry across top 8 scores: 0.7163865546218487
+Average of max per entry across top 9999 scores: 0.7163865546218487
+  2%|██▋                                                                                                                                              | 9/476 [00:00<00:00, 1044.20it/s]
+Bootstrapped 4 full traces after 10 examples in round 0.
+Average Metric: 293 / 476  (61.6): 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 476/476 [00:00<00:00, 1039.12it/s]
+Average Metric: 293 / 476  (61.6%)
+Score: 61.55 for set: [16]
+Scores so far: [53.36, 55.25, 61.97, 61.55]
+Best score: 61.97
+Average of max per entry across top 1 scores: 0.6197478991596639
+Average of max per entry across top 2 scores: 0.6617647058823529
+Average of max per entry across top 3 scores: 0.6869747899159664
+Average of max per entry across top 5 scores: 0.7226890756302521
+Average of max per entry across top 8 scores: 0.7226890756302521
+Average of max per entry across top 9999 scores: 0.7226890756302521
+  1%|▉                                                                                                                                                | 3/476 [00:00<00:00, 1035.55it/s]
+Bootstrapped 2 full traces after 4 examples in round 0.
+Average Metric: 267 / 476  (56.1): 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 476/476 [00:00<00:00, 1071.76it/s]
+Average Metric: 267 / 476  (56.1%)
+Score: 56.09 for set: [16]
+Scores so far: [53.36, 55.25, 61.97, 61.55, 56.09]
+Best score: 61.97
+Average of max per entry across top 1 scores: 0.6197478991596639
+Average of max per entry across top 2 scores: 0.6617647058823529
+Average of max per entry across top 3 scores: 0.6848739495798319
+Average of max per entry across top 5 scores: 0.7373949579831933
+Average of max per entry across top 8 scores: 0.7373949579831933
+Average of max per entry across top 9999 scores: 0.7373949579831933
+  0%|▎                                                                                                                                                 | 1/476 [00:00<00:00, 994.85it/s]
+Bootstrapped 1 full traces after 2 examples in round 0.
+Average Metric: 279 / 476  (58.6): 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 476/476 [00:00<00:00, 1071.81it/s]
+Average Metric: 279 / 476  (58.6%)
+Score: 58.61 for set: [16]
+Scores so far: [53.36, 55.25, 61.97, 61.55, 56.09, 58.61]
+Best score: 61.97
+Average of max per entry across top 1 scores: 0.6197478991596639
+Average of max per entry across top 2 scores: 0.6617647058823529
+Average of max per entry across top 3 scores: 0.6848739495798319
+Average of max per entry across top 5 scores: 0.7163865546218487
+Average of max per entry across top 8 scores: 0.7478991596638656
+Average of max per entry across top 9999 scores: 0.7478991596638656
+  1%|▉                                                                                                                                                | 3/476 [00:00<00:00, 1071.80it/s]
+Bootstrapped 2 full traces after 4 examples in round 0.
+Average Metric: 284 / 476  (59.7): 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 476/476 [00:00<00:00, 1039.44it/s]
+Average Metric: 284 / 476  (59.7%)
+Score: 59.66 for set: [16]
+Scores so far: [53.36, 55.25, 61.97, 61.55, 56.09, 58.61, 59.66]
+Best score: 61.97
+Average of max per entry across top 1 scores: 0.6197478991596639
+Average of max per entry across top 2 scores: 0.6617647058823529
+Average of max per entry across top 3 scores: 0.7142857142857143
+Average of max per entry across top 5 scores: 0.7352941176470589
+Average of max per entry across top 8 scores: 0.7689075630252101
+Average of max per entry across top 9999 scores: 0.7689075630252101
+7 candidate programs found.
+TYPE: multihop-fo
+Going to sample between 1 and 4 traces per predictor.
+Will attempt to train 4 candidate sets.
+Average Metric: 1808 / 2860  (63.2): 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████| 2860/2860 [00:01<00:00, 1947.69it/s]
+Average Metric: 1808 / 2860  (63.2%)
+Score: 63.22 for set: [0]
+New best score: 63.22 for seed -3
+Scores so far: [63.22]
+Best score: 63.22
+Average Metric: 1336 / 1958  (68.2):  68%|████████████████████████████████████████████████████████▊                          | 1957/2860 [08:18<27:31,  1.83s/it]                       Average Metric: 1964 / 2860  (68.7): 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████| 2860/2860 [35:06<00:00,  1.36it/s]
+Average Metric: 1964 / 2860  (68.7%)
+/Users/vincetrost/work/hackathons/cozy-copmuting-24/openToM-dspy/.venv/lib/python3.11/site-packages/dspy/evaluate/evaluate.py:142: FutureWarning: DataFrame.applymap has been deprecated. Use DataFrame.map instead.
+  df = df.applymap(truncate_cell)
+Score: 68.67 for set: [16]
+New best score: 68.67 for seed -2
+Scores so far: [63.22, 68.67]
+Best score: 68.67
+  0%|▎                                                                                                                                               | 6/2860 [00:00<00:00, 3091.24it/s]
+Bootstrapped 4 full traces after 7 examples in round 0.
+Average Metric: 1837 / 2860  (64.2): 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████| 2860/2860 [1:11:31<00:00,  1.50s/it]
+Average Metric: 1837 / 2860  (64.2%)
+Score: 64.23 for set: [16]
+Scores so far: [63.22, 68.67, 64.23]
+Best score: 68.67
+Average of max per entry across top 1 scores: 0.6867132867132867
+Average of max per entry across top 2 scores: 0.715034965034965
+Average of max per entry across top 3 scores: 0.7559440559440559
+Average of max per entry across top 5 scores: 0.7559440559440559
+Average of max per entry across top 8 scores: 0.7559440559440559
+Average of max per entry across top 9999 scores: 0.7559440559440559
+  0%|▍                                                                                                                                               | 8/2860 [00:15<1:30:16,  1.90s/it]
+Bootstrapped 4 full traces after 9 examples in round 0.
+Average Metric: 1775 / 2860  (62.1): 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████| 2860/2860 [1:35:32<00:00,  2.00s/it]
+Average Metric: 1775 / 2860  (62.1%)
+Score: 62.06 for set: [16]
+Scores so far: [63.22, 68.67, 64.23, 62.06]
+Best score: 68.67
+Average of max per entry across top 1 scores: 0.6867132867132867
+Average of max per entry across top 2 scores: 0.715034965034965
+Average of max per entry across top 3 scores: 0.7559440559440559
+Average of max per entry across top 5 scores: 0.7646853146853146
+Average of max per entry across top 8 scores: 0.7646853146853146
+Average of max per entry across top 9999 scores: 0.7646853146853146
+  0%|                                                                                                                                                | 2/2860 [00:03<1:25:31,  1.80s/it]
+Bootstrapped 2 full traces after 3 examples in round 0.
+Average Metric: 1924 / 2860  (67.3): 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████| 2860/2860 [1:49:53<00:00,  2.31s/it]
+Average Metric: 1924 / 2860  (67.3%)
+Score: 67.27 for set: [16]
+Scores so far: [63.22, 68.67, 64.23, 62.06, 67.27]
+Best score: 68.67
+Average of max per entry across top 1 scores: 0.6867132867132867
+Average of max per entry across top 2 scores: 0.7216783216783217
+Average of max per entry across top 3 scores: 0.7311188811188811
+Average of max per entry across top 5 scores: 0.772027972027972
+Average of max per entry across top 8 scores: 0.772027972027972
+Average of max per entry across top 9999 scores: 0.772027972027972
+  0%|                                                                                                                                                | 1/2860 [00:02<2:00:50,  2.54s/it]
+Bootstrapped 1 full traces after 2 examples in round 0.
+Average Metric: 1901 / 2860  (66.5): 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████| 2860/2860 [2:10:21<00:00,  2.73s/it]
+Average Metric: 1901 / 2860  (66.5%)
+Score: 66.47 for set: [16]
+Scores so far: [63.22, 68.67, 64.23, 62.06, 67.27, 66.47]
+Best score: 68.67
+Average of max per entry across top 1 scores: 0.6867132867132867
+Average of max per entry across top 2 scores: 0.7216783216783217
+Average of max per entry across top 3 scores: 0.727972027972028
+Average of max per entry across top 5 scores: 0.7674825174825175
+Average of max per entry across top 8 scores: 0.7734265734265734
+Average of max per entry across top 9999 scores: 0.7734265734265734
+  0%|                                                                                                                                                | 2/2860 [00:02<1:10:23,  1.48s/it]
+Bootstrapped 2 full traces after 3 examples in round 0.
+Average Metric: 1877 / 2860  (65.6): 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████| 2860/2860 [1:43:25<00:00,  2.17s/it]
+Average Metric: 1877 / 2860  (65.6%)
+Score: 65.63 for set: [16]
+Scores so far: [63.22, 68.67, 64.23, 62.06, 67.27, 66.47, 65.63]
+Best score: 68.67
+Average of max per entry across top 1 scores: 0.6867132867132867
+Average of max per entry across top 2 scores: 0.7216783216783217
+Average of max per entry across top 3 scores: 0.727972027972028
+Average of max per entry across top 5 scores: 0.736013986013986
+Average of max per entry across top 8 scores: 0.7748251748251749
+Average of max per entry across top 9999 scores: 0.7748251748251749
+7 candidate programs found.
+TYPE: multihop-so
+Going to sample between 1 and 4 traces per predictor.
+Will attempt to train 4 candidate sets.
+Average Metric: 1178 / 2860  (41.2): 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████| 2860/2860 [1:20:14<00:00,  1.68s/it]
+Average Metric: 1178 / 2860  (41.2%)
+Score: 41.19 for set: [0]
+New best score: 41.19 for seed -3
+Scores so far: [41.19]
+Best score: 41.19
+Average Metric: 1389 / 2860  (48.6): 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████| 2860/2860 [2:08:46<00:00,  2.70s/it]
+Average Metric: 1389 / 2860  (48.6%)
+Score: 48.57 for set: [16]
+New best score: 48.57 for seed -2
+Scores so far: [41.19, 48.57]
+Best score: 48.57
+  0%|▍                                                                                                                                               | 9/2860 [00:00<00:00, 3131.64it/s]
+Bootstrapped 4 full traces after 10 examples in round 0.
+Average Metric: 133 / 276  (48.2):  10%|████████                                                                            | 275/2860 [10:18<1:16:23,  1.77s/it]Average Metric: 1341 / 2860  (46.9): 100%|█████████████████████████████████████████████████████████████████████████████████| 2860/2860 [1:40:12<00:00,  2.10s/it]
+Average Metric: 1341 / 2860  (46.9%)
+Score: 46.89 for set: [16]
+Scores so far: [41.19, 48.57, 46.89]
+Best score: 48.57
+Average of max per entry across top 1 scores: 0.48566433566433564
+Average of max per entry across top 2 scores: 0.58006993006993
+Average of max per entry across top 3 scores: 0.6262237762237762
+Average of max per entry across top 5 scores: 0.6262237762237762
+Average of max per entry across top 8 scores: 0.6262237762237762
+Average of max per entry across top 9999 scores: 0.6262237762237762
+  0%|▎                                                                                                                        | 6/2860 [00:14<1:57:43,  2.48s/it]
+Bootstrapped 4 full traces after 7 examples in round 0.
+Average Metric: 1405 / 2860  (49.1): 100%|█████████████████████████████████████████████████████████████████████████████████| 2860/2860 [1:28:42<00:00,  1.86s/it]
+Average Metric: 1405 / 2860  (49.1%)
+Score: 49.13 for set: [16]
+New best score: 49.13 for seed 0
+Scores so far: [41.19, 48.57, 46.89, 49.13]
+Best score: 49.13
+Average of max per entry across top 1 scores: 0.49125874125874125
+Average of max per entry across top 2 scores: 0.5958041958041959
+Average of max per entry across top 3 scores: 0.6304195804195805
+Average of max per entry across top 5 scores: 0.6629370629370629
+Average of max per entry across top 8 scores: 0.6629370629370629
+Average of max per entry across top 9999 scores: 0.6629370629370629
+  0%|▏                                                                                                                        | 3/2860 [00:05<1:22:14,  1.73s/it]
+Bootstrapped 2 full traces after 4 examples in round 0.
+Average Metric: 1331 / 2860  (46.5): 100%|█████████████████████████████████████████████████████████████████████████████████| 2860/2860 [2:12:58<00:00,  2.79s/it]
+Average Metric: 1331 / 2860  (46.5%)
+Score: 46.54 for set: [16]
+Scores so far: [41.19, 48.57, 46.89, 49.13, 46.54]
+Best score: 49.13
+Average of max per entry across top 1 scores: 0.49125874125874125
+Average of max per entry across top 2 scores: 0.5958041958041959
+Average of max per entry across top 3 scores: 0.6304195804195805
+Average of max per entry across top 5 scores: 0.679020979020979
+Average of max per entry across top 8 scores: 0.679020979020979
+Average of max per entry across top 9999 scores: 0.679020979020979
+  0%|                                                                                                                         | 2/2860 [00:03<1:25:13,  1.79s/it]
+Bootstrapped 1 full traces after 3 examples in round 0.
+Average Metric: 1503 / 2860  (52.6): 100%|█████████████████████████████████████████████████████████████████████████████████| 2860/2860 [1:19:34<00:00,  1.67s/it]
+Average Metric: 1503 / 2860  (52.6%)
+Score: 52.55 for set: [16]
+New best score: 52.55 for seed 2
+Scores so far: [41.19, 48.57, 46.89, 49.13, 46.54, 52.55]
+Best score: 52.55
+Average of max per entry across top 1 scores: 0.5255244755244756
+Average of max per entry across top 2 scores: 0.6202797202797202
+Average of max per entry across top 3 scores: 0.6734265734265734
+Average of max per entry across top 5 scores: 0.7052447552447553
+Average of max per entry across top 8 scores: 0.7265734265734266
+Average of max per entry across top 9999 scores: 0.7265734265734266
+  0%|▏                                                                                                                        | 5/2860 [00:08<1:20:52,  1.70s/it]
+Bootstrapped 2 full traces after 6 examples in round 0.
+Average Metric: 1427 / 2860  (49.9): 100%|█████████████████████████████████████████████████████████████████████████████████| 2860/2860 [2:06:23<00:00,  2.65s/it]
+Average Metric: 1427 / 2860  (49.9%)
+Score: 49.9 for set: [16]
+Scores so far: [41.19, 48.57, 46.89, 49.13, 46.54, 52.55, 49.9]
+Best score: 52.55
+Average of max per entry across top 1 scores: 0.5255244755244756
+Average of max per entry across top 2 scores: 0.6377622377622377
+Average of max per entry across top 3 scores: 0.7017482517482517
+Average of max per entry across top 5 scores: 0.7503496503496504
+Average of max per entry across top 8 scores: 0.7706293706293706
+Average of max per entry across top 9999 scores: 0.7706293706293706
+7 candidate programs found.
+TYPE: location-fo
+Going to sample between 1 and 4 traces per predictor.
+Will attempt to train 4 candidate sets.
+Average Metric: 1767 / 2860  (61.8): 100%|███████████████████████████████████████████████████████████████████████████████████| 2860/2860 [57:08<00:00,  1.20s/it]
+Average Metric: 1767 / 2860  (61.8%)
+Score: 61.78 for set: [0]
+New best score: 61.78 for seed -3
+Scores so far: [61.78]
+Best score: 61.78
+Average Metric: 1764 / 2860  (61.7): 100%|█████████████████████████████████████████████████████████████████████████████████| 2860/2860 [1:09:23<00:00,  1.46s/it]
+Average Metric: 1764 / 2860  (61.7%)
+Score: 61.68 for set: [16]
+Scores so far: [61.78, 61.68]
+Best score: 61.78
+  0%|▎                                                                                                                        | 7/2860 [00:00<00:00, 3163.47it/s]
+Bootstrapped 4 full traces after 8 examples in round 0.
+Average Metric: 1777 / 2860  (62.1): 100%|█████████████████████████████████████████████████████████████████████████████████| 2860/2860 [1:14:32<00:00,  1.56s/it]
+Average Metric: 1777 / 2860  (62.1%)
+Score: 62.13 for set: [16]
+New best score: 62.13 for seed -1
+Scores so far: [61.78, 61.68, 62.13]
+Best score: 62.13
+Average of max per entry across top 1 scores: 0.6213286713286713
+Average of max per entry across top 2 scores: 0.643006993006993
+Average of max per entry across top 3 scores: 0.6562937062937063
+Average of max per entry across top 5 scores: 0.6562937062937063
+Average of max per entry across top 8 scores: 0.6562937062937063
+Average of max per entry across top 9999 scores: 0.6562937062937063
+  0%|▎                                                                                                                        | 7/2860 [00:09<1:06:16,  1.39s/it]
+Bootstrapped 4 full traces after 8 examples in round 0.
+Average Metric: 1777 / 2860  (62.1): 100%|█████████████████████████████████████████████████████████████████████████████████| 2860/2860 [1:12:10<00:00,  1.51s/it]
+Average Metric: 1777 / 2860  (62.1%)
+Score: 62.13 for set: [16]
+Scores so far: [61.78, 61.68, 62.13, 62.13]
+Best score: 62.13
+Average of max per entry across top 1 scores: 0.6213286713286713
+Average of max per entry across top 2 scores: 0.6227272727272727
+Average of max per entry across top 3 scores: 0.644055944055944
+Average of max per entry across top 5 scores: 0.656993006993007
+Average of max per entry across top 8 scores: 0.656993006993007
+Average of max per entry across top 9999 scores: 0.656993006993007
+  0%|                                                                                                                           | 2/2860 [00:02<57:58,  1.22s/it]
+Bootstrapped 2 full traces after 3 examples in round 0.
+Average Metric: 1777 / 2860  (62.1): 100%|█████████████████████████████████████████████████████████████████████████████████| 2860/2860 [1:07:40<00:00,  1.42s/it]
+Average Metric: 1777 / 2860  (62.1%)
+Score: 62.13 for set: [16]
+Scores so far: [61.78, 61.68, 62.13, 62.13, 62.13]
+Best score: 62.13
+Average of max per entry across top 1 scores: 0.6213286713286713
+Average of max per entry across top 2 scores: 0.6227272727272727
+Average of max per entry across top 3 scores: 0.6241258741258742
+Average of max per entry across top 5 scores: 0.6576923076923077
+Average of max per entry across top 8 scores: 0.6576923076923077
+Average of max per entry across top 9999 scores: 0.6576923076923077
+  0%|                                                                                                                         | 1/2860 [00:01<1:00:17,  1.27s/it]
+Bootstrapped 1 full traces after 2 examples in round 0.
+Average Metric: 1749 / 2860  (61.2): 100%|█████████████████████████████████████████████████████████████████████████████████| 2860/2860 [1:12:32<00:00,  1.52s/it]
+Average Metric: 1749 / 2860  (61.2%)
+Score: 61.15 for set: [16]
+Scores so far: [61.78, 61.68, 62.13, 62.13, 62.13, 61.15]
+Best score: 62.13
+Average of max per entry across top 1 scores: 0.6213286713286713
+Average of max per entry across top 2 scores: 0.6227272727272727
+Average of max per entry across top 3 scores: 0.6241258741258742
+Average of max per entry across top 5 scores: 0.6576923076923077
+Average of max per entry across top 8 scores: 0.6576923076923077
+Average of max per entry across top 9999 scores: 0.6576923076923077
+  0%|                                                                                                                         | 2/2860 [00:02<1:08:52,  1.45s/it]
+Bootstrapped 2 full traces after 3 examples in round 0.
+Average Metric: 1744 / 2860  (61.0): 100%|█████████████████████████████████████████████████████████████████████████████████| 2860/2860 [1:13:28<00:00,  1.54s/it]
+Average Metric: 1744 / 2860  (61.0%)
+Score: 60.98 for set: [16]
+Scores so far: [61.78, 61.68, 62.13, 62.13, 62.13, 61.15, 60.98]
+Best score: 62.13
+Average of max per entry across top 1 scores: 0.6213286713286713
+Average of max per entry across top 2 scores: 0.6227272727272727
+Average of max per entry across top 3 scores: 0.6241258741258742
+Average of max per entry across top 5 scores: 0.6576923076923077
+Average of max per entry across top 8 scores: 0.6884615384615385
+Average of max per entry across top 9999 scores: 0.6884615384615385
+7 candidate programs found.
+TYPE: location-so
+Going to sample between 1 and 4 traces per predictor.
+Will attempt to train 4 candidate sets.
+Average Metric: 1049 / 1907  (55.0): 100%|███████████████████████████████████████████████████████████████████████████████████| 1907/1907 [42:27<00:00,  1.34s/it]
+Average Metric: 1049 / 1907  (55.0%)
+Score: 55.01 for set: [0]
+New best score: 55.01 for seed -3
+Scores so far: [55.01]
+Best score: 55.01
+Average Metric: 1098 / 1907  (57.6): 100%|███████████████████████████████████████████████████████████████████████████████████| 1907/1907 [49:16<00:00,  1.55s/it]
+Average Metric: 1098 / 1907  (57.6%)
+Score: 57.58 for set: [16]
+New best score: 57.58 for seed -2
+Scores so far: [55.01, 57.58]
+Best score: 57.58
+  0%|▍                                                                                                                        | 6/1907 [00:00<00:00, 2695.28it/s]
+Bootstrapped 4 full traces after 7 examples in round 0.
+Average Metric: 1381 / 1907  (72.4): 100%|███████████████████████████████████████████████████████████████████████████████████| 1907/1907 [44:04<00:00,  1.39s/it]
+Average Metric: 1381 / 1907  (72.4%)
+Score: 72.42 for set: [16]
+New best score: 72.42 for seed -1
+Scores so far: [55.01, 57.58, 72.42]
+Best score: 72.42
+Average of max per entry across top 1 scores: 0.7241740954378605
+Average of max per entry across top 2 scores: 0.869952805453592
+Average of max per entry across top 3 scores: 0.8951232302045097
+Average of max per entry across top 5 scores: 0.8951232302045097
+Average of max per entry across top 8 scores: 0.8951232302045097
+Average of max per entry across top 9999 scores: 0.8951232302045097
+  1%|▋                                                                                                                         | 11/1907 [00:16<47:58,  1.52s/it]
+Bootstrapped 4 full traces after 12 examples in round 0.
+Average Metric: 1203 / 1907  (63.1): 100%|███████████████████████████████████████████████████████████████████████████████████| 1907/1907 [53:44<00:00,  1.69s/it]
+Average Metric: 1203 / 1907  (63.1%)
+Score: 63.08 for set: [16]
+Scores so far: [55.01, 57.58, 72.42, 63.08]
+Best score: 72.42
+Average of max per entry across top 1 scores: 0.7241740954378605
+Average of max per entry across top 2 scores: 0.8715259570005244
+Average of max per entry across top 3 scores: 0.9307813319349764
+Average of max per entry across top 5 scores: 0.9496591504981646
+Average of max per entry across top 8 scores: 0.9496591504981646
+Average of max per entry across top 9999 scores: 0.9496591504981646
+  0%|▏                                                                                                                          | 3/1907 [00:04<43:25,  1.37s/it]
+Bootstrapped 2 full traces after 4 examples in round 0.
+Average Metric: 1117 / 1907  (58.6): 100%|███████████████████████████████████████████████████████████████████████████████████| 1907/1907 [42:49<00:00,  1.35s/it]
+Average Metric: 1117 / 1907  (58.6%)
+Score: 58.57 for set: [16]
+Scores so far: [55.01, 57.58, 72.42, 63.08, 58.57]
+Best score: 72.42
+Average of max per entry across top 1 scores: 0.7241740954378605
+Average of max per entry across top 2 scores: 0.8715259570005244
+Average of max per entry across top 3 scores: 0.9250131095962244
+Average of max per entry across top 5 scores: 0.9496591504981646
+Average of max per entry across top 8 scores: 0.9496591504981646
+Average of max per entry across top 9999 scores: 0.9496591504981646
+  0%|▍                                                                                                                          | 6/1907 [00:10<53:03,  1.67s/it]
+Bootstrapped 1 full traces after 7 examples in round 0.
+Average Metric: 1197 / 1907  (62.8): 100%|███████████████████████████████████████████████████████████████████████████████████| 1907/1907 [49:18<00:00,  1.55s/it]
+Average Metric: 1197 / 1907  (62.8%)
+Score: 62.77 for set: [16]
+Scores so far: [55.01, 57.58, 72.42, 63.08, 58.57, 62.77]
+Best score: 72.42
+Average of max per entry across top 1 scores: 0.7241740954378605
+Average of max per entry across top 2 scores: 0.8715259570005244
+Average of max per entry across top 3 scores: 0.9265862611431568
+Average of max per entry across top 5 scores: 0.9507079181961196
+Average of max per entry across top 8 scores: 0.9580492920818039
+Average of max per entry across top 9999 scores: 0.9580492920818039
+  0%|▎                                                                                                                          | 5/1907 [00:07<48:46,  1.54s/it]
+Bootstrapped 2 full traces after 6 examples in round 0.
+Average Metric: 917 / 1907  (48.1): 100%|████████████████████████████████████████████████████████████████████████████████████| 1907/1907 [48:21<00:00,  1.52s/it]
+Average Metric: 917 / 1907  (48.1%)
+Score: 48.09 for set: [16]
+Scores so far: [55.01, 57.58, 72.42, 63.08, 58.57, 62.77, 48.09]
+Best score: 72.42
+Average of max per entry across top 1 scores: 0.7241740954378605
+Average of max per entry across top 2 scores: 0.8715259570005244
+Average of max per entry across top 3 scores: 0.9265862611431568
+Average of max per entry across top 5 scores: 0.9507079181961196
+Average of max per entry across top 8 scores: 0.9685369690613529
+Average of max per entry across top 9999 scores: 0.9685369690613529
+7 candidate programs found.
+Macro Averaged F1 Scores
+uncompiled_baleen - attitude: 46.83
+compiled_baleen - attitude: 52.32
+uncompiled_baleen - multihop-fo: 44.26
+compiled_baleen - multihop-fo: 46.589999999999996
+uncompiled_baleen - multihop-so: 30.380000000000003
+compiled_baleen - multihop-so: 37.830000000000005
+uncompiled_baleen - location-fo: 34.050000000000004
+compiled_baleen - location-fo: 33.51
+uncompiled_baleen - location-so: 29.89
+compiled_baleen - location-so: 22.770000000000003
