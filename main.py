@@ -30,7 +30,7 @@ def main(dspy_method):
         for question_type in EVAL_QUESTION_TYPES:
             print(f"TYPE: {question_type}")
             evaluator = OpenToMEvaluatorDspy(model_name="(training set) complied baleen")
-            optimizer = BootstrapFewShotWithRandomSearch(metric=evaluator.dspy_metric, num_threads=1)
+            optimizer = BootstrapFewShotWithRandomSearch(metric=evaluator.dspy_metric, num_candidate_programs=4, num_threads=1)
             compiled_baleen = optimizer.compile(CoTSimplifiedBaleen(), trainset=datasets[question_type]["train"])
 
             modules[question_type] = compiled_baleen
