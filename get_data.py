@@ -44,9 +44,6 @@ def main():
                 else "coarse"
             )
             type = f"{type}-{location_granularity}"
-        else:
-            location_granularity = "coarse"
-            type = f"{type}-{location_granularity}"
 
 
         # Answer choices
