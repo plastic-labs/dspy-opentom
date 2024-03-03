@@ -17,18 +17,8 @@ class OpenToMEvaluatorDspy:
     def dspy_metric(self, example, pred_answer, trace=None):
         type = example.type
 
-        if "location" in type:
-            location_granularity = (
-                "fine"
-                if example.answer.lower().strip() != "yes"
-                and example.answer.lower().strip() != "no"
-                else "coarse"
-            )
-        else:
-            location_granularity = "coarse"
-
         eval_result = self.check_answer(
-            example, pred_answer.answer, location_granularity
+            example, pred_answer.answer
         )
         if (
             eval_result == None
@@ -52,7 +42,6 @@ class OpenToMEvaluatorDspy:
         self,
         example,
         pred_answer,
-        location_granularity,
         cot_flag=False,
         perspective="all",
     ):
@@ -100,32 +89,29 @@ class OpenToMEvaluatorDspy:
         if cot_flag:
             pred_answer = self.parse_cot_answer(pred_answer)
 
-        if cur_question_type == "location-fo":
-
-            if location_granularity == "fine":
-                gt, pred = self.check_answer_for_fg_location(
-                    pred_answer, gt_answer, original_place, move_to_place
-                )
-            else:
-                gt, pred = self.check_answer_for_cg_location(pred_answer, gt_answer)
-
+        if cur_question_type == "location-fo-coarse":
+            gt, pred = self.check_answer_for_cg_location(pred_answer, gt_answer)
+            return gt, pred
+        
+        elif cur_question_type == "location-fo-fine":
+            gt, pred = self.check_answer_for_fg_location(
+                pred_answer, gt_answer, original_place, move_to_place
+            )
             return gt, pred
 
-        elif cur_question_type == "location-so":
-            if location_granularity == "fine":
-                gt, pred = self.check_answer_for_fg_location(
-                    pred_answer, gt_answer, original_place, move_to_place
-                )
-            else:
-                gt, pred = self.check_answer_for_cg_location(pred_answer, gt_answer)
-
+        elif cur_question_type == "location-so-coarse":
+            gt, pred = self.check_answer_for_cg_location(pred_answer, gt_answer)
+            return gt, pred
+        
+        elif cur_question_type == "location-so-fine":
+            gt, pred = self.check_answer_for_fg_location(
+                pred_answer, gt_answer, original_place, move_to_place
+            )
             return gt, pred
 
         elif cur_question_type == "multihop-fo":
-
             if "fullness" in question_content:
                 gt, pred = self.check_fullness_answer(pred_answer, gt_answer)
-
                 return gt, pred
 
             elif "accessibility" in question_content:
@@ -138,17 +124,14 @@ class OpenToMEvaluatorDspy:
                     gt_answer = gt_answer[0]
 
                 gt, pred = self.check_accessibility_answer(pred_answer, gt_answer)
-
                 return gt, pred
 
         elif cur_question_type == "multihop-so":
             if "fullness" in question_content:
                 gt, pred = self.check_fullness_answer(pred_answer, gt_answer)
-
                 return gt, pred
 
             elif "accessibility" in question_content:
-
                 if "|" in gt_answer:
                     gt_answer = "equally accessible"
 
@@ -158,30 +141,25 @@ class OpenToMEvaluatorDspy:
                     gt_answer = gt_answer[0]
 
                 gt, pred = self.check_accessibility_answer(pred_answer, gt_answer)
-
                 return gt, pred
 
         elif cur_question_type == "attitude":
             gt, pred = self.check_attitude_answer(pred_answer, gt_answer)
-
             return gt, pred
 
     def f1_score(self):
         true_positives = self.true_positives
         false_positives = self.false_positives
         false_negatives = self.false_negatives
-
         f1_scores = defaultdict(lambda: {"by_class": {}})
 
         for _class in (
             true_positives.keys() | false_positives.keys() | false_negatives.keys()
         ):
             question_type, _ = _class.split("_")
-
             class_true_positives = true_positives[_class]
             class_false_positives = false_positives[_class]
             class_false_negatives = false_negatives[_class]
-
             class_precision = (
                 class_true_positives / (class_true_positives + class_false_positives)
                 if class_true_positives > 0.0
@@ -192,7 +170,6 @@ class OpenToMEvaluatorDspy:
                 if class_true_positives > 0.0
                 else 0.0
             )
-
             class_f1_score = (
                 (2 * class_precision * class_recall) / (class_precision + class_recall)
                 if class_precision > 0.0 or class_recall > 0.0
@@ -205,7 +182,6 @@ class OpenToMEvaluatorDspy:
             macro_averaged_f1_score = sum(list(type_f1_scores.values())) / len(
                 type_f1_scores
             )
-
             f1_scores[question_type]["macro_averaged"] = macro_averaged_f1_score
 
         return f1_scores
@@ -213,7 +189,6 @@ class OpenToMEvaluatorDspy:
     # pretty print macro averaged f1 scores for each question type
     def print_f1_results(self, round_decimal=2, print_header=False):
         f1_scores = self.f1_score()
-
         if print_header:
             print("Macro Averaged F1 Scores by question type")
 
@@ -263,18 +238,14 @@ class OpenToMEvaluatorDspy:
 
         # truncate prediction as some of them contain explanations
         answer = self.remove_determinant(answer).lower()
-
         original_place = self.remove_determinant(original_place).lower()
         move_to_place = self.remove_determinant(move_to_place).lower()
-
         gt_label, pred_label = None, None
-
         original_place_score = self.compute_lexical_overlap(prediction, original_place)
         move_to_place_score = self.compute_lexical_overlap(prediction, move_to_place)
 
         if original_place_score == move_to_place_score:
             pred_label = 3
-
         if original_place_score > move_to_place_score:
             pred_label = 1
         elif original_place_score < move_to_place_score:
@@ -306,12 +277,9 @@ class OpenToMEvaluatorDspy:
         return [gt_label, pred_label]
 
     def check_fullness_answer(self, prediction: str, answer: str) -> list:
-
         prediction = prediction.replace(".", "").lower()
-
         less_full_answer_list = ["less full", "emptier", "more empty"]
         more_full_answer_list = ["more full", "fuller"]
-
         pred_label, gt_label = None, None
         for less_full_ans in less_full_answer_list:
             if less_full_ans in prediction:
@@ -339,9 +307,7 @@ class OpenToMEvaluatorDspy:
         return [gt_label, pred_label]
 
     def check_accessibility_answer(self, prediction: str, answer: str) -> list:
-
         prediction = prediction.replace(".", "").lower()
-
         pred_label, gt_label = None, None
         if "more accessible" in prediction:
             pred_label = 1
@@ -362,15 +328,12 @@ class OpenToMEvaluatorDspy:
         return [gt_label, pred_label]
 
     def check_attitude_answer(self, prediction: str, answer: str) -> list:
-
         prediction = prediction.lower()
         answer = answer.lower()
-
         answer_map = {"a": "positive", "b": "neutral", "c": "negative"}
         prediction_token = (
             prediction.split("\n\n")[-1].split(":")[-1].split(".")[0].strip().lower()
         )
-
         gt_label, pred_label = None, None
 
         if answer == "positive":
@@ -382,7 +345,6 @@ class OpenToMEvaluatorDspy:
 
         try:
             prediction = answer_map[prediction_token]
-
             if prediction == "positive":
                 pred_label = 1
             elif prediction == "negative":

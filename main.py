@@ -12,7 +12,7 @@ from collections import defaultdict
 
 
 
-EVAL_QUESTION_TYPES = ["attitude", "multihop-fo", "multihop-so", "location-fo", "location-so"]
+EVAL_QUESTION_TYPES = ["attitude", "multihop-fo", "multihop-so", "location-fo-coarse", "location-fo-fine", "location-so-coarse", "location-so-fine"]
 
 def dump_state(data, filename):
     with open(filename, 'wb') as file:
@@ -30,8 +30,8 @@ def main(dspy_method):
         for question_type in EVAL_QUESTION_TYPES:
             print(f"TYPE: {question_type}")
             evaluator = OpenToMEvaluatorDspy(model_name="(training set) complied baleen")
-            optimizer = BootstrapFewShotWithRandomSearch(metric=evaluator.dspy_metric, num_candidate_programs=4, num_threads=1)
-            compiled_baleen = optimizer.compile(CoTSimplifiedBaleen(), trainset=datasets[question_type]["train"])
+            optimizer = BootstrapFewShotWithRandomSearch(metric=evaluator.dspy_metric, num_candidate_programs=50, num_threads=1)
+            compiled_baleen = optimizer.compile(CoTSimplifiedBaleen(), trainset=datasets[question_type]["train"][:10])
 
             modules[question_type] = compiled_baleen
             time.sleep(60)
@@ -40,7 +40,7 @@ def main(dspy_method):
 
         print("Macro Averaged F1 Scores")
         for question_type in EVAL_QUESTION_TYPES:
-            test = datasets[question_type]["test"]
+            test = datasets[question_type]["test"][:25]
             compiled_baleen = modules[question_type]
 
             # Set up the `evaluate_on_hotpotqa` function.

@@ -35,6 +35,21 @@ def main():
         type = row['question']['type']
         plot_info = json.dumps(row['plot_info']) # Keeping each example field as a string might be a good idea
 
+        # update the type value if location is coarse or fine
+        if "location" in type:
+            location_granularity = (
+                "fine"
+                if answer.lower().strip() != "yes"
+                and answer.lower().strip() != "no"
+                else "coarse"
+            )
+            type = f"{type}-{location_granularity}"
+        else:
+            location_granularity = "coarse"
+            type = f"{type}-{location_granularity}"
+
+
+        # Answer choices
         if "location" in type and (answer.lower().strip() != "yes" and answer.lower().strip() != "no"): # don't provide answer choices for fine grained location questions
             answer_choices = "n/a, list a specific location"
         elif "location" in type:
