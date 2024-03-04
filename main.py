@@ -128,7 +128,9 @@ def main(dspy_method, dspy_optimizer, question_types, teacher_lm, train_size):
             run[f"evaluation/{question_type}/compiled/mean_macro_averaged_f1"] = compiled_mean_f1
             run[f"evaluation/{question_type}/compiled/mean_macro_averaged_f1"] = compiled_std_f1
 
-            print(f"Mean Macro Averaged F1 Scores (+- std dev.) - {question_type}")
+            print(
+                f"Mean Macro Averaged F1 Scores (+- std dev.) - {question_type} - Aggregated from {num_batches} batches of {batch_size} questions"
+            )
             print(f"uncompiled: {uncompiled_mean_f1} +- {uncompiled_std_f1}")
             print(f"compiled: {compiled_mean_f1} +- {compiled_std_f1}")
 
