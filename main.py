@@ -9,7 +9,7 @@ import dspy
 from dspy.teleprompt import BootstrapFewShotWithRandomSearch, SignatureOptimizer
 from dspy.evaluate.evaluate import Evaluate
 from cot import CoTSimplifiedBaleen
-from get_data import default_factory
+from get_data import default_factory, load_dataset
 from collections import defaultdict
 from dotenv import load_dotenv
 import neptune
@@ -42,7 +42,10 @@ def dump_state(data, filename):
         pickle.dump(data, file)
 
 
-def main(dspy_method, dspy_optimizer, question_types, teacher_lm, train_size):
+def main(dspy_method, dspy_optimizer, download_dataset, question_types, teacher_lm, train_size):
+    # load dataset
+    if download_dataset:
+        load_dataset()
 
     # read in the datasets pickle object
     with open("datasets.pkl", "rb") as file:
@@ -129,10 +132,10 @@ def main(dspy_method, dspy_optimizer, question_types, teacher_lm, train_size):
             run[f"evaluation/{question_type}/compiled/mean_macro_averaged_f1"] = compiled_std_f1
 
             print(
-                f"Mean Macro Averaged F1 Scores (+- std dev.) - {question_type} - Aggregated from {num_batches} batches of {batch_size} questions"
+                f"Mean Macro Averaged F1 Scores (± std dev.) - {question_type} - Aggregated from {num_batches} batches of {batch_size} questions"
             )
-            print(f"uncompiled: {uncompiled_mean_f1} +- {uncompiled_std_f1}")
-            print(f"compiled: {compiled_mean_f1} +- {compiled_std_f1}")
+            print(f"uncompiled: {uncompiled_mean_f1:.3f} ± {uncompiled_std_f1:.3}")
+            print(f"compiled: {compiled_mean_f1:.3} ± {compiled_std_f1:.3}")
 
         dump_state(modules, "cot_modules.pkl")
         run["cot_modules"].upload("cot_modules.pkl")
@@ -147,6 +150,7 @@ if __name__ == "__main__":
     parser.add_argument("--student", default="gpt-3.5-turbo", type=str, help="The LLM to optimize prompts for")
     parser.add_argument("--teacher", default=None, type=str, help="Teacher LLM for optimizing prompts. Defaults to Student LLM")
     parser.add_argument("--train_size", default=50, type=int, help="Number of training examples to use for optimization")
+    parser.add_argument("--download_dataset", default=True, type=bool, help="Download dataset")
     parser.add_argument("--question_types", default=EVAL_QUESTION_TYPES, nargs="*", help="Question types. Defaults to all")
 
     args = parser.parse_args()
@@ -165,4 +169,4 @@ if __name__ == "__main__":
     # log run parameters
     run["parameters"] = args
 
-    main(args.dspy_method, args.dspy_optimizer, question_types, teacher_lm, args.train_size)
+    main(args.dspy_method, args.dspy_optimizer, args.download_dataset, question_types, teacher_lm, args.train_size)

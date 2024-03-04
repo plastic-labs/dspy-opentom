@@ -16,7 +16,7 @@ def default_factory():
     return []
 
 
-def main():
+def load_dataset():
     response = requests.get(URL).json()
 
     df = pd.DataFrame(response)
@@ -87,4 +87,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    load_dataset()
