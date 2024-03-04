@@ -4,63 +4,87 @@ import pickle
 import time
 import argparse
 from opentom_evaluator import OpenToMEvaluatorDspy
-from dspy.teleprompt import BootstrapFewShotWithRandomSearch
+from dspy.teleprompt import BootstrapFewShotWithRandomSearch, SignatureOptimizer
 from dspy.evaluate.evaluate import Evaluate
 from cot import CoTSimplifiedBaleen
 from get_data import default_factory
 from collections import defaultdict
 
 
+EVAL_QUESTION_TYPES = [
+    "attitude",
+    "multihop-fo",
+    "multihop-so",
+    "location-fo-coarse",
+    "location-fo-fine",
+    "location-so-coarse",
+    "location-so-fine",
+]
 
-EVAL_QUESTION_TYPES = ["attitude", "multihop-fo", "multihop-so", "location-fo-coarse", "location-fo-fine", "location-so-coarse", "location-so-fine"]
 
 def dump_state(data, filename):
-    with open(filename, 'wb') as file:
+    with open(filename, "wb") as file:
         pickle.dump(data, file)
 
-def main(dspy_method):
+
+def main(dspy_method, dspy_optimizer):
 
     # read in the datasets pickle object
-    with open('datasets.pkl', 'rb') as file:
+    with open("datasets.pkl", "rb") as file:
         datasets = pickle.load(file)
 
-    if dspy_method == 'cot':
+    if dspy_method == "cot":
         modules = {}
         # define modules for each question type
         for question_type in EVAL_QUESTION_TYPES:
             print(f"TYPE: {question_type}")
             evaluator = OpenToMEvaluatorDspy(model_name="(training set) complied baleen")
-            optimizer = BootstrapFewShotWithRandomSearch(metric=evaluator.dspy_metric, num_candidate_programs=50, num_threads=1)
-            compiled_baleen = optimizer.compile(CoTSimplifiedBaleen(), trainset=datasets[question_type]["train"][:10])
+
+            if dspy_optimizer == "bootstrap_fewshot_with_random_search":
+                optimizer = BootstrapFewShotWithRandomSearch(
+                    metric=evaluator.dspy_metric, num_candidate_programs=25, num_threads=1
+                )
+                compiled_baleen = optimizer.compile(CoTSimplifiedBaleen(), trainset=datasets[question_type]["train"][:50])
+            elif dspy_optimizer == "signature_optimizer":
+                optimizer = SignatureOptimizer(
+                    metric=evaluator.dspy_metric, breadth=10, depth=3, init_temperature=1.4, verbose=True, track_stats=True
+                )
+                eval_kwargs = dict(num_threads=1, display_progress=True, display_table=0)
+                compiled_baleen = optimizer.compile(
+                    CoTSimplifiedBaleen(), devset=datasets[question_type]["train"][:50], eval_kwargs=eval_kwargs
+                )
+            else:
+                raise Exception(f"Invalid dspy optimizer type: {dspy_optimizer}")
 
             modules[question_type] = compiled_baleen
-            time.sleep(60)
+            # time.sleep(60)
+            time.sleep(1)
 
         uncompiled_baleen = CoTSimplifiedBaleen()
 
         print("Macro Averaged F1 Scores")
         for question_type in EVAL_QUESTION_TYPES:
-            test = datasets[question_type]["test"][:25]
+            test = datasets[question_type]["test"][:]
             compiled_baleen = modules[question_type]
 
             # Set up the `evaluate_on_hotpotqa` function.
-            evaluate_on_opentom = Evaluate(devset=test, num_threads=1, display_progress=True, display_table=10)
+            evaluate_on_opentom = Evaluate(devset=test, num_threads=1, display_progress=True, display_table=20)
 
-            uncompiled_baleen_evaluator = OpenToMEvaluatorDspy(model_name='uncompiled_baleen')
+            uncompiled_baleen_evaluator = OpenToMEvaluatorDspy(model_name="uncompiled_baleen")
             evaluate_on_opentom(uncompiled_baleen, metric=uncompiled_baleen_evaluator.dspy_metric, display=False)
             uncompiled_baleen_evaluator.print_f1_results()
 
-            compiled_baleen_evaluator = OpenToMEvaluatorDspy(model_name='compiled_baleen')
+            compiled_baleen_evaluator = OpenToMEvaluatorDspy(model_name="compiled_baleen")
             evaluate_on_opentom(compiled_baleen, metric=compiled_baleen_evaluator.dspy_metric, display=False)
             compiled_baleen_evaluator.print_f1_results()
 
-        dump_state(modules, 'cot_modules.pkl')
-
+        dump_state(modules, "cot_modules.pkl")
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Run DSPY method.')
-    parser.add_argument('dspy_method', type=str, help='The DSPY method to run')
+    parser = argparse.ArgumentParser(description="Run DSPY method.")
+    parser.add_argument("dspy_method", type=str, help="The DSPY method to run")
+    parser.add_argument("dspy_optimizer", type=str, help="The DSPY optimizer to use")
     args = parser.parse_args()
 
-    main(args.dspy_method)
+    main(args.dspy_method, args.dspy_optimizer)
