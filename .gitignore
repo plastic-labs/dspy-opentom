@@ -7,3 +7,7 @@
 *.log
 
 __pycache__
+
+.neptune
+
+*.pkl

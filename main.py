@@ -12,9 +12,18 @@ from cot import CoTSimplifiedBaleen
 from get_data import default_factory
 from collections import defaultdict
 from dotenv import load_dotenv
+import neptune
 
 load_dotenv()
 
+# initialize neptune
+run = neptune.init_run(
+    project="dspy-opentom/dspy-evaluation",
+    capture_hardware_metrics=False,
+    capture_stderr=True,
+    capture_stdout=True,
+    capture_traceback=True,
+)
 
 EVAL_QUESTION_TYPES = [
     "attitude",
@@ -75,27 +84,32 @@ def main(dspy_method, dspy_optimizer, question_types, teacher_lm, train_size):
                 raise Exception(f"Invalid dspy optimizer type: {dspy_optimizer}")
 
             modules[question_type] = compiled_baleen
-            time.sleep(60)
+            time.sleep(10)
 
         uncompiled_baleen = CoTSimplifiedBaleen()
 
         print("Macro Averaged F1 Scores")
-        for question_type in EVAL_QUESTION_TYPES:
+        for question_type in question_types:
             test = datasets[question_type]["test"][:]
             compiled_baleen = modules[question_type]
 
             # Set up the `evaluate_on_hotpotqa` function.
-            evaluate_on_opentom = Evaluate(devset=test, num_threads=1, display_progress=True, display_table=20)
+            evaluate_on_opentom = Evaluate(devset=test, num_threads=1, display_progress=True, display_table=0)
 
             uncompiled_baleen_evaluator = OpenToMEvaluatorDspy(model_name="uncompiled_baleen")
             evaluate_on_opentom(uncompiled_baleen, metric=uncompiled_baleen_evaluator.dspy_metric, display=False)
             uncompiled_baleen_evaluator.print_f1_results()
+            run[f"evaluation/{question_type}/{uncompiled_baleen_evaluator.model_name}/f1"] = (
+                uncompiled_baleen_evaluator.f1_score()
+            )
 
             compiled_baleen_evaluator = OpenToMEvaluatorDspy(model_name="compiled_baleen")
             evaluate_on_opentom(compiled_baleen, metric=compiled_baleen_evaluator.dspy_metric, display=False)
             compiled_baleen_evaluator.print_f1_results()
+            run[f"evaluation/{question_type}/{compiled_baleen_evaluator.model_name}/f1"] = compiled_baleen_evaluator.f1_score()
 
         dump_state(modules, "cot_modules.pkl")
+        run["cot_modules"].upload("cot_modules.pkl")
 
 
 if __name__ == "__main__":
@@ -113,10 +127,16 @@ if __name__ == "__main__":
 
     # setup LLMs
     student_lm = dspy.OpenAI(model=args.student, max_tokens=1000)
-    teacher_lm = dspy.OpenAI(model=args.teacher, max_tokens=1000) if args.teacher else student_lm
+    args.teacher = args.student if args.teacher is None else args.teacher
+    teacher_lm = dspy.OpenAI(model=args.teacher, max_tokens=1000)
     dspy.settings.configure(lm=student_lm)
 
     # validate question types
-    assert all([question_type in EVAL_QUESTION_TYPES for question_type in args.question_types])
+    question_types = args.question_types
+    assert all([question_type in EVAL_QUESTION_TYPES for question_type in question_types])
+    args.question_types = ", ".join(question_types)  # turn list into string for neptune logging
 
-    main(args.dspy_method, args.dspy_optimizer, args.question_types, teacher_lm, args.train_size)
+    # log run parameters
+    run["parameters"] = args
+
+    main(args.dspy_method, args.dspy_optimizer, question_types, teacher_lm, args.train_size)
