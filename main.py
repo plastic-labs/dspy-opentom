@@ -57,8 +57,7 @@ def main(dspy_method, dspy_optimizer):
                 raise Exception(f"Invalid dspy optimizer type: {dspy_optimizer}")
 
             modules[question_type] = compiled_baleen
-            # time.sleep(60)
-            time.sleep(1)
+            time.sleep(60)
 
         uncompiled_baleen = CoTSimplifiedBaleen()
 
