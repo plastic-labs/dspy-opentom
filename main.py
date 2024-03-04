@@ -145,6 +145,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run DSPY method.")
 
     # dspy arguments
+    parser.add_argument("experiment_title", type=str, help="Title of new experiment")
     parser.add_argument("dspy_method", type=str, help="The DSPY method to run")
     parser.add_argument("dspy_optimizer", type=str, help="The DSPY optimizer to use")
     parser.add_argument("--student", default="gpt-3.5-turbo", type=str, help="The LLM to optimize prompts for")
@@ -168,5 +169,6 @@ if __name__ == "__main__":
 
     # log run parameters
     run["parameters"] = args
+    run["sys/name"] = args.experiment_title
 
     main(args.dspy_method, args.dspy_optimizer, args.download_dataset, question_types, teacher_lm, args.train_size)
