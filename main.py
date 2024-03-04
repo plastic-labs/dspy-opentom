@@ -13,6 +13,7 @@ from get_data import default_factory
 from collections import defaultdict
 from dotenv import load_dotenv
 import neptune
+import numpy as np
 
 load_dotenv()
 
@@ -88,25 +89,48 @@ def main(dspy_method, dspy_optimizer, question_types, teacher_lm, train_size):
 
         uncompiled_baleen = CoTSimplifiedBaleen()
 
-        print("Macro Averaged F1 Scores")
+        print("Beginning Evaluation")
         for question_type in question_types:
-            test = datasets[question_type]["test"][:]
             compiled_baleen = modules[question_type]
 
-            # Set up the `evaluate_on_hotpotqa` function.
-            evaluate_on_opentom = Evaluate(devset=test, num_threads=1, display_progress=True, display_table=0)
+            # Evaluation Procedure: Calculate the F1 Score for a randomly drawn batch of 50 questions 5 times and average the F1 Scores
+            batch_size = 50
+            num_batches = 5
 
-            uncompiled_baleen_evaluator = OpenToMEvaluatorDspy(model_name="uncompiled_baleen")
-            evaluate_on_opentom(uncompiled_baleen, metric=uncompiled_baleen_evaluator.dspy_metric, display=False)
-            uncompiled_baleen_evaluator.print_f1_results()
-            run[f"evaluation/{question_type}/{uncompiled_baleen_evaluator.model_name}/f1"] = (
-                uncompiled_baleen_evaluator.f1_score()
-            )
+            assert len(datasets[question_type]["test"]) >= batch_size * num_batches
+            test = datasets[question_type]["test"][: batch_size * num_batches]
+            test_sets = [test[i : i + batch_size] for i in range(num_batches)]
 
-            compiled_baleen_evaluator = OpenToMEvaluatorDspy(model_name="compiled_baleen")
-            evaluate_on_opentom(compiled_baleen, metric=compiled_baleen_evaluator.dspy_metric, display=False)
-            compiled_baleen_evaluator.print_f1_results()
-            run[f"evaluation/{question_type}/{compiled_baleen_evaluator.model_name}/f1"] = compiled_baleen_evaluator.f1_score()
+            uncompiled_f1_scores = []
+            compiled_f1_scores = []
+
+            for test in test_sets:
+                # Set up the `evaluate_on_hotpotqa` function.
+                evaluate_on_opentom = Evaluate(devset=test, num_threads=1, display_progress=True, display_table=0)
+
+                uncompiled_baleen_evaluator = OpenToMEvaluatorDspy(model_name="uncompiled_baleen")
+                evaluate_on_opentom(uncompiled_baleen, metric=uncompiled_baleen_evaluator.dspy_metric, display=True)
+                uncompiled_f1_scores.append(uncompiled_baleen_evaluator.f1_score()[question_type]["macro_averaged"])
+
+                compiled_baleen_evaluator = OpenToMEvaluatorDspy(model_name="compiled_baleen")
+                evaluate_on_opentom(compiled_baleen, metric=compiled_baleen_evaluator.dspy_metric, display=True)
+                compiled_f1_scores.append(compiled_baleen_evaluator.f1_score()[question_type]["macro_averaged"])
+
+            # overall f1 scores
+            uncompiled_mean_f1 = np.mean(uncompiled_f1_scores)
+            uncompiled_std_f1 = np.std(uncompiled_f1_scores)
+
+            compiled_mean_f1 = np.mean(compiled_f1_scores)
+            compiled_std_f1 = np.std(compiled_f1_scores)
+
+            run[f"evaluation/{question_type}/uncompiled/mean_macro_averaged_f1"] = uncompiled_mean_f1
+            run[f"evaluation/{question_type}/uncompiled/mean_macro_averaged_f1"] = uncompiled_std_f1
+            run[f"evaluation/{question_type}/compiled/mean_macro_averaged_f1"] = compiled_mean_f1
+            run[f"evaluation/{question_type}/compiled/mean_macro_averaged_f1"] = compiled_std_f1
+
+            print(f"Mean Macro Averaged F1 Scores (+- std dev.) - {question_type}")
+            print(f"uncompiled: {uncompiled_mean_f1} +- {uncompiled_std_f1}")
+            print(f"compiled: {compiled_mean_f1} +- {compiled_std_f1}")
 
         dump_state(modules, "cot_modules.pkl")
         run["cot_modules"].upload("cot_modules.pkl")

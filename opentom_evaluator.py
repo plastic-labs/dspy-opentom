@@ -17,12 +17,8 @@ class OpenToMEvaluatorDspy:
     def dspy_metric(self, example, pred_answer, trace=None):
         type = example.type
 
-        eval_result = self.check_answer(
-            example, pred_answer.answer
-        )
-        if (
-            eval_result == None
-        ):  # Hm what is the correct value to return as a dspy metric when there's an invalid example?
+        eval_result = self.check_answer(example, pred_answer.answer)
+        if eval_result == None:  # Hm what is the correct value to return as a dspy metric when there's an invalid example?
             return None
         gt, pred = eval_result  # ground truth answer class, predicted answer class
 
@@ -45,9 +41,7 @@ class OpenToMEvaluatorDspy:
         cot_flag=False,
         perspective="all",
     ):
-        mover, affected_char, eoi, original_place, move_to_place = json.loads(
-            example.plot_info
-        ).values()
+        mover, affected_char, eoi, original_place, move_to_place = json.loads(example.plot_info).values()
 
         cur_question_type = example.type
         question_content = example.question
@@ -61,9 +55,7 @@ class OpenToMEvaluatorDspy:
                 return None
 
             if mover in question_content and affected_char in question_content:
-                question_tokens = (
-                    question_content.replace("'s", "").replace(",", "").split()
-                )
+                question_tokens = question_content.replace("'s", "").replace(",", "").split()
 
                 mover_idx = question_tokens.index(mover)
                 affected_char_idx = question_tokens.index(affected_char)
@@ -76,9 +68,7 @@ class OpenToMEvaluatorDspy:
                 return None
 
             if mover in question_content and affected_char in question_content:
-                question_tokens = (
-                    question_content.replace("'s", "").replace(",", "").split()
-                )
+                question_tokens = question_content.replace("'s", "").replace(",", "").split()
 
                 mover_idx = question_tokens.index(mover)
                 affected_char_idx = question_tokens.index(affected_char)
@@ -92,21 +82,17 @@ class OpenToMEvaluatorDspy:
         if cur_question_type == "location-fo-coarse":
             gt, pred = self.check_answer_for_cg_location(pred_answer, gt_answer)
             return gt, pred
-        
+
         elif cur_question_type == "location-fo-fine":
-            gt, pred = self.check_answer_for_fg_location(
-                pred_answer, gt_answer, original_place, move_to_place
-            )
+            gt, pred = self.check_answer_for_fg_location(pred_answer, gt_answer, original_place, move_to_place)
             return gt, pred
 
         elif cur_question_type == "location-so-coarse":
             gt, pred = self.check_answer_for_cg_location(pred_answer, gt_answer)
             return gt, pred
-        
+
         elif cur_question_type == "location-so-fine":
-            gt, pred = self.check_answer_for_fg_location(
-                pred_answer, gt_answer, original_place, move_to_place
-            )
+            gt, pred = self.check_answer_for_fg_location(pred_answer, gt_answer, original_place, move_to_place)
             return gt, pred
 
         elif cur_question_type == "multihop-fo":
@@ -153,22 +139,16 @@ class OpenToMEvaluatorDspy:
         false_negatives = self.false_negatives
         f1_scores = defaultdict(lambda: {"by_class": {}})
 
-        for _class in (
-            true_positives.keys() | false_positives.keys() | false_negatives.keys()
-        ):
+        for _class in true_positives.keys() | false_positives.keys() | false_negatives.keys():
             question_type, _ = _class.split("_")
             class_true_positives = true_positives[_class]
             class_false_positives = false_positives[_class]
             class_false_negatives = false_negatives[_class]
             class_precision = (
-                class_true_positives / (class_true_positives + class_false_positives)
-                if class_true_positives > 0.0
-                else 0.0
+                class_true_positives / (class_true_positives + class_false_positives) if class_true_positives > 0.0 else 0.0
             )  # avoid dividing by zero
             class_recall = (
-                class_true_positives / (class_true_positives + class_false_negatives)
-                if class_true_positives > 0.0
-                else 0.0
+                class_true_positives / (class_true_positives + class_false_negatives) if class_true_positives > 0.0 else 0.0
             )
             class_f1_score = (
                 (2 * class_precision * class_recall) / (class_precision + class_recall)
@@ -179,9 +159,7 @@ class OpenToMEvaluatorDspy:
 
         for question_type, type_f1_scores in f1_scores.items():
             type_f1_scores = type_f1_scores["by_class"]
-            macro_averaged_f1_score = sum(list(type_f1_scores.values())) / len(
-                type_f1_scores
-            )
+            macro_averaged_f1_score = sum(list(type_f1_scores.values())) / len(type_f1_scores)
             f1_scores[question_type]["macro_averaged"] = macro_averaged_f1_score
 
         return f1_scores
@@ -232,9 +210,7 @@ class OpenToMEvaluatorDspy:
             answer = answer.split("Therefore")[-1]
         return answer
 
-    def check_answer_for_fg_location(
-        self, prediction: str, answer: str, original_place: str, move_to_place: str
-    ) -> list:
+    def check_answer_for_fg_location(self, prediction: str, answer: str, original_place: str, move_to_place: str) -> list:
 
         # truncate prediction as some of them contain explanations
         answer = self.remove_determinant(answer).lower()
@@ -331,9 +307,7 @@ class OpenToMEvaluatorDspy:
         prediction = prediction.lower()
         answer = answer.lower()
         answer_map = {"a": "positive", "b": "neutral", "c": "negative"}
-        prediction_token = (
-            prediction.split("\n\n")[-1].split(":")[-1].split(".")[0].strip().lower()
-        )
+        prediction_token = prediction.split("\n\n")[-1].split(":")[-1].split(".")[0].strip().lower()
         gt_label, pred_label = None, None
 
         if answer == "positive":
