@@ -1,9 +1,11 @@
 # DSPy OpenTOM
 
-This repo contains scripts for optimizing DSPy modules for the OpenTOM Benchmark.
+This repo contains scripts for optimizing DSPy modules for the OpenTOM Benchmark. We support Chain of Thought and a method we thought might work where we generate a "thought" about the context to aid in answering the question (spoiler -- it didn't work better than just `BootstrapFewShotWithRandomSearch`).
 
-CLI Usage: ```
-usage: main.py [-h] [--student STUDENT] [--teacher TEACHER] [--train_size TRAIN_SIZE] [--download_dataset DOWNLOAD_DATASET] [--question_types [QUESTION_TYPES ...]]
+CLI Usage: 
+```
+usage: main.py [-h] [--student STUDENT] [--teacher TEACHER] [--train_size TRAIN_SIZE] [--download_dataset DOWNLOAD_DATASET]
+               [--question_types [QUESTION_TYPES ...]]
                experiment_title dspy_method dspy_optimizer
 
 Run DSPY method.
@@ -24,3 +26,5 @@ options:
   --question_types [QUESTION_TYPES ...]
                         Question types. Defaults to all
 ```
+
+Come chat with us in our [discord](https://discorg.gg/plasticlabs) or in the [DSPy thread]()
