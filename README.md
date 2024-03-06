@@ -27,4 +27,4 @@ options:
                         Question types. Defaults to all
 ```
 
-Come chat with us in our [discord](https://discorg.gg/plasticlabs) or in the [DSPy thread]()
+Come chat with us in our [discord](https://discorg.gg/plasticlabs) or in the [DSPy thread](https://discord.com/channels/1161519468141355160/1214629969318252574)
